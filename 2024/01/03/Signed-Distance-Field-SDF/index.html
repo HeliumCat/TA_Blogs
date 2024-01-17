@@ -16,21 +16,23 @@
   <meta name="author" content="Heline">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
-<meta property="og:title" content="test">
-<meta property="og:url" content="https://heliumcat.github.io/TA_Blogs/2023/12/31/test/index.html">
+    <meta name="description" content="什么是有向距离场有向距离场是一种隐式的表示曲面的数据结构。具体的形式主要有2D和3D两种，不过这两种本质没啥区别，无非就是维数不同而已，都是使用一系列网格(Grid)填充整个空间，每个网格计算网格中心与距离它最近的一个表面的距离，用这个距离代表这个网格，而“有向”体现在如果网格处于一个封闭物体内，则这个距离为负数，否则为正数。如果刚好位于物体表面，则距离为0。这一大堆网格就构成了一个场，这个场隐式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="有向距离场(Signed Distance Field, SDF)">
+<meta property="og:url" content="https://heliumcat.github.io/TA_Blogs/2024/01/03/Signed-Distance-Field-SDF/index.html">
 <meta property="og:site_name" content="Heline&#39;s Blog">
+<meta property="og:description" content="什么是有向距离场有向距离场是一种隐式的表示曲面的数据结构。具体的形式主要有2D和3D两种，不过这两种本质没啥区别，无非就是维数不同而已，都是使用一系列网格(Grid)填充整个空间，每个网格计算网格中心与距离它最近的一个表面的距离，用这个距离代表这个网格，而“有向”体现在如果网格处于一个封闭物体内，则这个距离为负数，否则为正数。如果刚好位于物体表面，则距离为0。这一大堆网格就构成了一个场，这个场隐式">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://heliumcat.github.io/TA_Blogs/2023/12/31/test/image.png">
-<meta property="article:published_time" content="2023-12-31T05:20:46.000Z">
-<meta property="article:modified_time" content="2023-12-31T12:18:17.173Z">
+<meta property="article:published_time" content="2024-01-03T12:13:16.000Z">
+<meta property="article:modified_time" content="2024-01-17T02:44:45.611Z">
 <meta property="article:author" content="Heline">
+<meta property="article:tag" content="SDF">
+<meta property="article:tag" content="索引">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://heliumcat.github.io/TA_Blogs/2023/12/31/test/image.png">
   
   
   
-  <title>test - Heline&#39;s Blog</title>
+  <title>有向距离场(Signed Distance Field, SDF) - Heline&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="test"></span>
+            <span id="subtitle" data-typed-text="有向距离场(Signed Distance Field, SDF)"></span>
           
         </div>
 
@@ -211,8 +213,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-12-31 13:20" pubdate>
-          2023年12月31日 下午
+        <time datetime="2024-01-03 20:13" pubdate>
+          2024年1月3日 晚上
         </time>
       </span>
     
@@ -223,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          483 字
         
       </span>
     
@@ -234,7 +236,7 @@
         
         
         
-          1 分钟
+          5 分钟
         
       </span>
     
@@ -271,12 +273,13 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">test</h1>
+            <h1 id="seo-header">有向距离场(Signed Distance Field, SDF)</h1>
             
             
               <div class="markdown-body">
                 
-                <p><img src="/TA_Blogs/2023/12/31/test/image.png" srcset="/TA_Blogs/img/loading.gif" lazyload alt="测试图片"></p>
+                <h2 id="什么是有向距离场"><a href="#什么是有向距离场" class="headerlink" title="什么是有向距离场"></a>什么是有向距离场</h2><p>有向距离场是一种隐式的表示曲面的数据结构。具体的形式主要有2D和3D两种，不过这两种本质没啥区别，无非就是维数不同而已，都是使用一系列网格(Grid)填充整个空间，每个网格计算网格中心与距离它最近的一个表面的距离，用这个距离代表这个网格，而“有向”体现在如果网格处于一个封闭物体内，则这个距离为负数，否则为正数。如果刚好位于物体表面，则距离为0。这一大堆网格就构成了一个场，这个场隐式地定义了处于这个场中的物体表面。<br>可以看出网格的密度决定这个场景的精确程度，获取场景中任何一个点的SDF值需要经过双线性或者三线性插值。<br>一开始我看完并理解了这个定义之后，觉得也不过如此，结果没想到这个东西能在图形学中发挥这么大的用处，从随心所欲地绘制2D图形，到字体，到光线步进，到阴影生成等等，感觉这个玩意无处不在，在写这篇文章的时候我对SDF的理解也还是停留在表面，所以这篇文章实际上是一个索引，日后我会逐渐完善SDF的应用，并且在这篇文章中给出对应的其他文章的链接，逐渐补完这块领域。</p>
+<h2 id="使用SDF玩转shadertoy"><a href="#使用SDF玩转shadertoy" class="headerlink" title="使用SDF玩转shadertoy"></a>使用SDF玩转shadertoy</h2><p>在知道shadertoy之后立即听闻了Inigo Quilez(常说的IQ大神)的大名，<a target="_blank" rel="noopener" href="https://iquilezles.org/">他的主页</a>中有大量干货，读者有空可以去看看。<br>其中，SDF无论在他的文章还是shadertoy中都有着重要的地位。关于在shadertoy中使用SDF请移步下面这篇文章：<br><a href="https://heliumcat.github.io/TA_Blogs/2024/01/03/Play-Shadertoy-With-SDF/">使用SDF玩转shadertoy</a></p>
 
                 
               </div>
@@ -285,6 +288,36 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/TA_Blogs/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="category-chain-item">图形学</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/TA_Blogs/tags/SDF/" class="print-no-link">#SDF</a>
+      
+        <a href="/TA_Blogs/tags/%E7%B4%A2%E5%BC%95/" class="print-no-link">#索引</a>
+      
+    </div>
   
 </div>
 
@@ -294,8 +327,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>test</div>
-      <div>https://heliumcat.github.io/TA_Blogs/2023/12/31/test/</div>
+      <div>有向距离场(Signed Distance Field, SDF)</div>
+      <div>https://heliumcat.github.io/TA_Blogs/2024/01/03/Signed-Distance-Field-SDF/</div>
     </div>
     <div class="license-meta">
       
@@ -307,7 +340,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年12月31日</div>
+          <div>2024年1月3日</div>
         </div>
       
       
@@ -334,6 +367,29 @@
 
 
 
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/TA_Blogs/2024/01/03/Play-Shadertoy-With-SDF/" title="使用SDF玩转shadertoy">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">使用SDF玩转shadertoy</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/TA_Blogs/2024/01/02/ContraNeRF-Paper-Notes/" title="ContraNeRF论文笔记">
+                        <span class="hidden-mobile">ContraNeRF论文笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
               
             </div>
 
