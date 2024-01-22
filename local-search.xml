@@ -4,6 +4,64 @@
   
   
   <entry>
+    <title>Gabriel Aguiar的VFX系列(二) 火花</title>
+    <link href="/TA_Blogs/2024/01/23/VFX-Sparks/"/>
+    <url>/TA_Blogs/2024/01/23/VFX-Sparks/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>图形学</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>VFX</tag>
+      
+      <tag>Gabriel Aguiar入门教程</tag>
+      
+      <tag>Series</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Gabriel Aguiar的VFX系列(一) VFX基本直觉</title>
+    <link href="/TA_Blogs/2024/01/18/VFX-Principles/"/>
+    <url>/TA_Blogs/2024/01/18/VFX-Principles/</url>
+    
+    <content type="html"><![CDATA[<h2 id="VFX类型"><a href="#VFX类型" class="headerlink" title="VFX类型"></a>VFX类型</h2><p>VFX这个东西其实类型非常单调，基本上就是shader、粒子效果、网格效果、贴图动画的组合。<br>这个部分其实没啥好说的，主要就是建立一个直觉，以及引发一下何为VFX的思考，因为很多VFX也有网格，那为什么不被定义为模型？显然，“有网格的VFX”与几何模型的最主要的区别就是VFX有明显的生命周期以及生命周期的几个阶段，这里就引出下面的VFX五要素。</p><h2 id="VFX五要素"><a href="#VFX五要素" class="headerlink" title="VFX五要素"></a>VFX五要素</h2><p>构成VFX的五大基本要素，每一项都决定了一个VFX的不同之处。</p><h3 id="GamePlay"><a href="#GamePlay" class="headerlink" title="GamePlay"></a>GamePlay</h3><p>说到底VFX还是为GamePlay服务的，在制作一个VFX之前需要知道具体的需求是什么。<br>这里可能说的有点笼统，但是确实是很关键的一件事，只有明确了这一点，才能决定剩下的几个要素。<br>比如是爆炸效果还是治愈效果，决定了效果的持续时间、对比度、形状、调色板等，有时这些需求区别比较大，比如这个例子，但是有一些需求之间的区分就需要仔细斟酌了，比如水和冰，火和岩浆，黄金和蜂蜜这些视觉表现如何做出区分。<br>从大的方向来看，按照逻辑效果来分有伤害类型和治愈类型 按照依附对象来分有环境类型和角色类型等等</p><h3 id="Timing"><a href="#Timing" class="headerlink" title="Timing"></a>Timing</h3><p>所谓的Timing其实就是一个VFX的生命周期，这个很好理解。爆炸特效的生命周期基本都很短，而一些环境光效，治疗效果之类的生命周期大部分都比较长。总体上来说，一个短生命周期的VFX分为以下几个阶段：</p><ul><li>Anticipation</li><li>Climax</li><li>Dissipation<br>这三个阶段都非常有意思。因为最近在玩DOTA2，举个比较经典的例子就是DOTA2卡尔的天火。写这篇文章之前没有仔细看过，现在逐帧观察发现细节非常丰富，怪不得那么爽。<br><img src="/TA_Blogs/2024/01/18/VFX-Principles/invoker.gif" alt="卡尔天火"><br>Anticipation就是“使玩家感觉有事将要发生了”。可以简单理解为“技能前摇”。在卡尔的这个例子中，直接表现的就是一道很细的光束从上到下，并且收束的越来越细，地面开始出现光线焦点和波纹扩散。<br><img src="/TA_Blogs/2024/01/18/VFX-Principles/image.png" alt="卡尔天火技能前摇"><br>这个阶段可长可短，主要依据是你想将这个效果设计为一个可规避的技能还是一个瞬时效果，总之就是给人以“期待”。</li></ul><p>接下来的Climax就是技能生效的阶段，一般来说这个阶段的持续时间最短，光污染最强，给人感觉最爽。<br><img src="/TA_Blogs/2024/01/18/VFX-Principles/image-1.png" alt="卡尔技能生效"><br>逐帧观察可以发现，卡尔技能生效的一瞬间，有一道非常粗的天光从天而降，地面出现灼烧感的贴图，随后地面的光圈瞬间扩大，并伴随爆炸和地面破碎效果，视觉冲击感很强。这里地面叠加了两层贴图，一层表现烧灼感，一层表现破碎感。  </p><p>最后，Dissipation阶段作为这段VFX的收尾，使地面的光圈逐渐消散，然后火焰消散，最后留下破碎的地面。(懒得截图了，自己体会:D)</p><h3 id="Shape"><a href="#Shape" class="headerlink" title="Shape"></a>Shape</h3><p>比起生命周期，其实更加直观的是一个VFX的形状。不同的形状决定了一个VFX看上去究竟是“很有威胁”还是“很柔和”，以及这个VFX效果的属性。比如上面卡尔的天火一看就很痛，但是一些治疗效果看上去就很柔和，这个很好理解。关于形状其实更多的感受是类似于子弹的形状对人感官上的影响，一些尖头的魔法子弹看上去威力会大一点，而一些偏球形的子弹就更加有钝感。<br>总体来说，这一节其实也没有什么好讲的，都是比较直观能感受的东西。</p><h3 id="Contrast"><a href="#Contrast" class="headerlink" title="Contrast"></a>Contrast</h3><p>对比度这个东西其实是平时比较容易忽视的，但是这个因素的确非常重要。因为对比度一定程度上反应了一个VFX的“重要程度”。高对比度往往可以吸引玩家的注意，引导玩家的视线。一般的情形是，低重要性或“不想让人发现”的效果(比如我感觉DOTA2中的莲花就有点看不清)往往会有更低的对比度。<br>不过对比度也不是很好量化，都是凭感觉。一般VFX有大面积的高亮度区域和低亮度区域就可以认为对比度很高，同时具有以上两者对比度更强。<br><img src="/TA_Blogs/2024/01/18/VFX-Principles/image-2.png" alt="对比度参考"><br>将VFX转化为灰度图，上图可以作为对比度的参考。越靠近中间的色块对比度越低。</p><h3 id="Color-Theme"><a href="#Color-Theme" class="headerlink" title="Color&amp;Theme"></a>Color&amp;Theme</h3><p>关于颜色和主题，其实也不用说太多，实际上就是不同的颜色和元素会让VFX看起来有不同的感觉。<br><img src="/TA_Blogs/2024/01/18/VFX-Principles/image-3.png" alt="不同的调色板和元素"><br>调色板即上图中的一个个纯色圆形组成的有序集合，亮度从第到高，一方面可以反映色相，另一方面可以反映对比度。同时第二列中虽然调色板差不多，但是可以看出上图加了辉光效果，下图加了类似于治疗的元素，让这两个VFX看起来完全不同。调色板和主题元素共同决定一个VFX看起来怎么样，当调色板比较接近的时候，主题元素就决定了一切。如果调换一下这两个VFX的调色板，而不更换主题元素的话，其实看上去也没多大差别。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>图形学</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>VFX</tag>
+      
+      <tag>Gabriel Aguiar入门教程</tag>
+      
+      <tag>Series</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Varjo开发入门</title>
     <link href="/TA_Blogs/2024/01/15/Varjo-Development/"/>
     <url>/TA_Blogs/2024/01/15/Varjo-Development/</url>
