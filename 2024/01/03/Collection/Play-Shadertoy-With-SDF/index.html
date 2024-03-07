@@ -16,19 +16,24 @@
   <meta name="author" content="Heline">
   <meta name="keywords" content="">
   
-    <meta name="description" content="shadertoy是什么shadertoy是由Beautypi">
+    <meta name="description" content="本文定位：  fragment shader入门   SDF入门   RayMarching入门  阅读本文前应当具有的基础：  了解渲染管线  前言本文是一篇shadertoy的入门文章，由于作者本人的技术能力有限，做的也就是一些拾人牙慧的工作，请各位大佬轻喷。   shadertoy是什么shadertoy是由Inigo Quilez(社区里叫他IQ大佬，强烈建议去他的个人网站看看，有很多有用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用SDF玩转shadertoy">
 <meta property="og:url" content="https://chic-cat-145886.netlify.app/2024/01/03/Collection/Play-Shadertoy-With-SDF/index.html">
 <meta property="og:site_name" content="Heline&#39;s Blog">
-<meta property="og:description" content="shadertoy是什么shadertoy是由Beautypi">
+<meta property="og:description" content="本文定位：  fragment shader入门   SDF入门   RayMarching入门  阅读本文前应当具有的基础：  了解渲染管线  前言本文是一篇shadertoy的入门文章，由于作者本人的技术能力有限，做的也就是一些拾人牙慧的工作，请各位大佬轻喷。   shadertoy是什么shadertoy是由Inigo Quilez(社区里叫他IQ大佬，强烈建议去他的个人网站看看，有很多有用">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chic-cat-145886.netlify.app/2024/01/03/Collection/Play-Shadertoy-With-SDF/image.png">
+<meta property="og:image" content="https://chic-cat-145886.netlify.app/2024/01/03/Collection/Play-Shadertoy-With-SDF/shadertoy_sample.gif">
+<meta property="og:image" content="https://chic-cat-145886.netlify.app/2024/01/03/Collection/Play-Shadertoy-With-SDF/image-1.png">
+<meta property="og:image" content="https://chic-cat-145886.netlify.app/2024/01/03/Collection/Play-Shadertoy-With-SDF/image-2.png">
 <meta property="article:published_time" content="2024-01-03T12:57:17.000Z">
-<meta property="article:modified_time" content="2024-03-07T03:52:24.121Z">
+<meta property="article:modified_time" content="2024-03-07T14:30:49.443Z">
 <meta property="article:author" content="Heline">
 <meta property="article:tag" content="SDF">
 <meta property="article:tag" content="shadertoy">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://chic-cat-145886.netlify.app/2024/01/03/Collection/Play-Shadertoy-With-SDF/image.png">
   
   
   
@@ -225,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6 字
+          1.8k 字
         
       </span>
     
@@ -236,7 +241,7 @@
         
         
         
-          1 分钟
+          15 分钟
         
       </span>
     
@@ -278,8 +283,44 @@
             
               <div class="markdown-body">
                 
-                <h1 id="shadertoy是什么"><a href="#shadertoy是什么" class="headerlink" title="shadertoy是什么"></a>shadertoy是什么</h1><p>shadertoy是由<a target="_blank" rel="noopener" href="http://www.beautypi.com/">Beautypi</a></p>
+                <p>本文定位：</p>
+<ul>
+<li>fragment shader入门  </li>
+<li>SDF入门  </li>
+<li>RayMarching入门</li>
+</ul>
+<p>阅读本文前应当具有的基础：</p>
+<ul>
+<li>了解渲染管线</li>
+</ul>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文是一篇shadertoy的入门文章，由于作者本人的技术能力有限，做的也就是一些拾人牙慧的工作，请各位大佬轻喷。  </p>
+<h1 id="shadertoy是什么"><a href="#shadertoy是什么" class="headerlink" title="shadertoy是什么"></a>shadertoy是什么</h1><p><a target="_blank" rel="noopener" href="https://www.shadertoy.com/">shadertoy</a>是由<a target="_blank" rel="noopener" href="https://iquilezles.org/">Inigo Quilez</a>(社区里叫他IQ大佬，强烈建议去他的个人网站看看，有很多有用的文章) 和 Pol Jeremias开发的shader在线编辑网站，允许开发者在线编辑shader并与社区进行分享，可以在这个网站里得到灵感，以及学习shader相关的技术。<br> <img src="/2024/01/03/Collection/Play-Shadertoy-With-SDF/image.png" srcset="/img/loading.gif" lazyload alt="shadertoy首页"><br> <img src="/2024/01/03/Collection/Play-Shadertoy-With-SDF/shadertoy_sample.gif" srcset="/img/loading.gif" lazyload alt="shadertoy中的一些作品"><br>在shadertoy里编辑和浏览的仅有<strong>fragment shader</strong>(也叫pixel shader)，实现的效果甚至包括场景几何表达都由fragment shader完成(并不是说不经过渲染管线的其他阶段，而是其他的阶段均为默认设置，对数据进行必要的处理，不可编辑)，所以在这里能学到的trick有限，当个玩具玩就行(毕竟别人本身就叫toy)。  </p>
+<p>不过话说回来，如果读者稍微逛过一会shadertoy，就可以看到很多复杂得难以置信的作品，不仅可以做到相机在一个复杂场景内移动，甚至可以单凭fragment shader实现一个可交互的小游戏，这是如何做到的？真的可以只依赖渲染管线中的一个阶段就做到这么复杂的效果吗？是的，如果要说可编程渲染管线中，只能挑一个shader作为可编程的shader，选fragment shader毫无疑问能做出视觉上最炫酷的效果。这归因于fragment shader直接作用到每个像素。</p>
+<blockquote>
+<p>如果把整个渲染过程比作绘画的话，CPU包括渲染管线前面的部分都是在做诸如摆放参考物体，设置画架的工作，而fragment shader就是实际拿画笔在画布上绘制的过程，如果我们在<strong>脑内直接浮现出整个场景</strong>，不用之前的准备工作，拿出纸笔就可以直接绘画了(绘画最重要的不就是笔和纸吗)。<del>有了这一层认知以后，我们其实可以将shadertoy看作一个可动插画分享网站。(Pixiv了属于是)</del>  </p>
+</blockquote>
+<p>那么，如何完成“脑内浮现场景”这一步呢？实际上，shadertoy最核心的灵魂有两个：SDF(Signed Distance Field，有向距离场)和RayMarching(光线步进)，如果只能二选一的话毫无疑问是SDF。接下来，除了介绍shadertoy以外，本文也会简单介绍一下这两项关键技术。</p>
+<h1 id="shadertoy创作基本概念"><a href="#shadertoy创作基本概念" class="headerlink" title="shadertoy创作基本概念"></a>shadertoy创作基本概念</h1><h2 id="界面"><a href="#界面" class="headerlink" title="界面"></a>界面</h2><p><img src="/2024/01/03/Collection/Play-Shadertoy-With-SDF/image-1.png" srcset="/img/loading.gif" lazyload alt="shadertoy界面介绍"><br>shadertoy的界面非常简洁，需要关注的就是shader编辑器上方显示的着色器输入变量，以及shader编辑器下方的一堆channel。除了着色器输入变量外，可以看到shadertoy为我们预生成的fragment shader代码中，从上一个阶段传入了fragCoord变量，用于指明当前像素的位置。  </p>
+<blockquote>
+<p>不知道该不该在这里讲但很重要，读者应该认识到fragment shader的作用对象是每一个像素，像素与像素之间是并行的，没有直接联系，需要摆脱以往在CPU上编程的思维定式。  </p>
+</blockquote>
+<p>shadertoy使用GPU，利用WebGL API来渲染图形，故shader是使用glsl来编写的。因为glsl是类C语言，所以有C&#x2F;CPP&#x2F;C#&#x2F;JAVA基础的读者看着应该不会太困难。 glsl使用的变量类型基本包括bool(布尔), int(整型), float(浮点数), 和vec(向量)等。上图中的shader中包含的<code>mainImage</code>函数就是fragment shader，它的输入为一个2维向量<code>fragCoord</code>，输出一个4维向量<code>fragColor</code>，读者只需要习惯这样的定义方式即可。<br>同时，因为glsl这样的语言涉及到大量的向量和矩阵运算，所以向量运算的语法非常友好。比如<code>vec2 uv = fragCoord/iResolution.xy;</code>中直接使用一个<code>vec2</code>类型的变量除以<code>iResolution</code>这个<code>vec3</code>类型变量的<code>xy</code>成员，意思即为对应位置的分量相除，等价的语句如下：  </p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs glsl">uv.x = fragCoord.x/iResolution.x<br>uv.y = fragCoord.y/iResolution.y<br></code></pre></td></tr></table></figure>
+<p>不仅可以使用<code>foo.x</code> <code>foo.xy</code> <code>foo.xyz</code>来获取对应向量的对应分量，还可以使用<code>foo.r</code> <code>foo.rg</code> <code>foo.rgb</code>这样的表达，甚至可以使用<code>foo.xyx</code>这样的表达来构成一个由<code>foo</code>的x分量，y分量，x分量组成的向量。  </p>
+<blockquote>
+<p>这样的语法其实有个专业术语，叫Swizzle，有“鸡尾酒”和“搅拌”等意。  </p>
+</blockquote>
+<p>有了以上基础之后，就可以开始探索shadertoy的精彩世界了。  </p>
+<h1 id="SDF-Signed-Distance-Field-有向距离场"><a href="#SDF-Signed-Distance-Field-有向距离场" class="headerlink" title="SDF(Signed Distance Field, 有向距离场)"></a>SDF(Signed Distance Field, 有向距离场)</h1><p>即使没有使用过SDF，也应该已经听过SDF的鼎鼎大名了。SDF是一种隐式表达几何的数据结构，表达的是空间中每一个点到最近的一个区域边界(可以认为是几何表面)的距离，在区域边界外侧的符号为正，在区域边界内部的符号为负，在边界上SDF的值为0。SDF比较知名的几个应用包括字体渲染、卡通渲染中渲染角色阴影、隐式表达场景几何等。<br>在shadertoy中，因为我们只能编辑fragment shader，所以SDF是我们定义场景几何的关键手段。<br>为了在shadertoy中正确地使用SDF，我们首先需要对fragment shader中传入的几个数据进行一个通用的处理：  </p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs glsl"><span class="hljs-comment">//将像素的坐标范围映射到[0, 1]，OpenGL的屏幕空间坐标原点在左下角</span><br><span class="hljs-type">vec2</span> uv = fragCoord/iResolution.xy;<br><span class="hljs-comment">//对坐标进行一个平移，保证屏幕中央的像素坐标为(0.0, 0.0)</span><br>uv -= <span class="hljs-number">0.5</span>;<br><span class="hljs-comment">//因为屏幕为矩形，如果将x和y均映射到[0, 1]势必造成x方向坐标轴单位长度对应更多的像素</span><br><span class="hljs-comment">//所以我们需要对x坐标进行缩放，反映到图像上就是图像在x方向上被挤扁</span><br>uv.x *= iResolution.x/iResolution.y;<br></code></pre></td></tr></table></figure>
+<p> <img src="/2024/01/03/Collection/Play-Shadertoy-With-SDF/image-2.png" srcset="/img/loading.gif" lazyload alt="屏幕坐标处理过程"><br> 经过上面的处理，我们已经可以正常地绘制二维SDF图形了。</p>
+<h2 id="绘制一个炫酷的SDF圆"><a href="#绘制一个炫酷的SDF圆" class="headerlink" title="绘制一个炫酷的SDF圆"></a>绘制一个炫酷的SDF圆</h2><p><a target="_blank" rel="noopener" href="https://iquilezles.org/articles/distfunctions2d/">IQ大佬的一篇文章</a>给出了很多二维的SDF实现，其中圆的公式比较好理解，就直接在这里用了。另外比较复杂的SDF的公式其实也不用费劲去推，意义不是很大。  </p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs glsl"><span class="hljs-type">float</span> sdCircle( <span class="hljs-type">vec2</span> uv, <span class="hljs-type">float</span> r )<br>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">length</span>(uv) - r;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>总体实现：  </p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs glsl"><span class="hljs-type">vec3</span> sdfCircle(<span class="hljs-type">vec2</span> uv, <span class="hljs-type">float</span> r) &#123;<br>  <span class="hljs-type">float</span> x = uv.x;<br>  <span class="hljs-type">float</span> y = uv.y;<br><br>  <span class="hljs-type">float</span> d = <span class="hljs-built_in">length</span>(uv) - r;<br><br>  <span class="hljs-comment">//这里让d大于0的像素(在圆外面的部分)显示0，不大于0的像素(圆内的部分)显示随时间变化的彩色</span><br>  <span class="hljs-comment">//这里直接在SDF函数中着色实际上问题很大，只是为了图方便大伙不要学，后面会提出改进方案</span><br>  <span class="hljs-keyword">return</span> d &gt; <span class="hljs-number">0.</span> ? <span class="hljs-type">vec3</span>(<span class="hljs-number">0.</span>) : <span class="hljs-number">0.5</span> + <span class="hljs-number">0.5</span> * <span class="hljs-built_in">cos</span>(iTime + uv.xyx + <span class="hljs-type">vec3</span>(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>));<br>&#125;<br><br><span class="hljs-type">void</span> mainImage( <span class="hljs-keyword">out</span> <span class="hljs-type">vec4</span> fragColor, <span class="hljs-keyword">in</span> <span class="hljs-type">vec2</span> fragCoord )<br>&#123;<br>  <span class="hljs-type">vec2</span> uv = fragCoord/iResolution.xy;<br>  uv -= <span class="hljs-number">0.5</span>;<br>  uv.x *= iResolution.x/iResolution.y;<br><br>  <span class="hljs-type">vec3</span> col = sdfCircle(uv, <span class="hljs-number">.2</span>);<br><br>  <span class="hljs-comment">//颜色输出到帧缓存</span><br>  fragColor = <span class="hljs-type">vec4</span>(col,<span class="hljs-number">1.0</span>);<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
+
+<h1 id="RayMarching-光线步进"><a href="#RayMarching-光线步进" class="headerlink" title="RayMarching(光线步进)"></a>RayMarching(光线步进)</h1>
                 
               </div>
             
