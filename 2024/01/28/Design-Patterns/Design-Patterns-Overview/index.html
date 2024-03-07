@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/TA_Blogs/img/fluid.png">
-  <link rel="icon" href="/TA_Blogs/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -16,23 +16,23 @@
   <meta name="author" content="Heline">
   <meta name="keywords" content="">
   
-    <meta name="description" content="什么是有向距离场有向距离场是一种隐式的表示曲面的数据结构。具体的形式主要有2D和3D两种，不过这两种本质没啥区别，无非就是维数不同而已，都是使用一系列网格(Grid)填充整个空间，每个网格计算网格中心与距离它最近的一个表面的距离，用这个距离代表这个网格，而“有向”体现在如果网格处于一个封闭物体内，则这个距离为负数，否则为正数。如果刚好位于物体表面，则距离为0。这一大堆网格就构成了一个场，这个场隐式">
+    <meta name="description" content="碎碎念刚开始接触实际的Untiy项目，首先感受到的第一件事就是要回去好好看看设计模式了，如果不去回顾参透一下设计模式写出来的代码就是依托答辩。但是市面上关于设计模式的书和资料实在是太多了，只能说这个话题过于经典，不得不品尝。真正能用在游戏中的设计模式有多少呢？我其实也不太想去看比较经典的那本head first设计模式，不知道为什么每次看这大部头都看一点就看不下去，可能设计模式这种东西如果不是真正">
 <meta property="og:type" content="article">
-<meta property="og:title" content="有向距离场(Signed Distance Field, SDF)">
-<meta property="og:url" content="https://heliumcat.github.io/TA_Blogs/2024/01/03/Signed-Distance-Field-SDF/index.html">
+<meta property="og:title" content="游戏编程模式(一) 总览">
+<meta property="og:url" content="https://chic-cat-145886.netlify.app/2024/01/28/Design-Patterns/Design-Patterns-Overview/index.html">
 <meta property="og:site_name" content="Heline&#39;s Blog">
-<meta property="og:description" content="什么是有向距离场有向距离场是一种隐式的表示曲面的数据结构。具体的形式主要有2D和3D两种，不过这两种本质没啥区别，无非就是维数不同而已，都是使用一系列网格(Grid)填充整个空间，每个网格计算网格中心与距离它最近的一个表面的距离，用这个距离代表这个网格，而“有向”体现在如果网格处于一个封闭物体内，则这个距离为负数，否则为正数。如果刚好位于物体表面，则距离为0。这一大堆网格就构成了一个场，这个场隐式">
+<meta property="og:description" content="碎碎念刚开始接触实际的Untiy项目，首先感受到的第一件事就是要回去好好看看设计模式了，如果不去回顾参透一下设计模式写出来的代码就是依托答辩。但是市面上关于设计模式的书和资料实在是太多了，只能说这个话题过于经典，不得不品尝。真正能用在游戏中的设计模式有多少呢？我其实也不太想去看比较经典的那本head first设计模式，不知道为什么每次看这大部头都看一点就看不下去，可能设计模式这种东西如果不是真正">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-01-03T12:13:16.000Z">
-<meta property="article:modified_time" content="2024-01-17T02:44:45.611Z">
+<meta property="article:published_time" content="2024-01-28T13:52:20.000Z">
+<meta property="article:modified_time" content="2024-02-16T11:19:41.888Z">
 <meta property="article:author" content="Heline">
-<meta property="article:tag" content="SDF">
 <meta property="article:tag" content="索引">
+<meta property="article:tag" content="Series">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>有向距离场(Signed Distance Field, SDF) - Heline&#39;s Blog</title>
+  <title>游戏编程模式(一) 总览 - Heline&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -56,12 +56,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/TA_Blogs/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/TA_Blogs/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/TA_Blogs/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -70,15 +70,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"heliumcat.github.io","root":"/TA_Blogs/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/TA_Blogs/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"chic-cat-145886.netlify.app","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/TA_Blogs/js/utils.js" ></script>
-  <script  src="/TA_Blogs/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -99,7 +99,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/TA_Blogs/">
+    <a class="navbar-brand" href="/">
       <strong>Heline&#39;s Blog</strong>
     </a>
 
@@ -118,7 +118,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/" target="_self">
+              <a class="nav-link" href="/" target="_self">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -130,7 +130,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/archives/" target="_self">
+              <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -142,7 +142,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/categories/" target="_self">
+              <a class="nav-link" href="/categories/" target="_self">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -154,7 +154,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/tags/" target="_self">
+              <a class="nav-link" href="/tags/" target="_self">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -166,7 +166,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/about/" target="_self">
+              <a class="nav-link" href="/about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
                 <span>联系我</span>
               </a>
@@ -196,13 +196,13 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/TA_Blogs/img/default.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="有向距离场(Signed Distance Field, SDF)"></span>
+            <span id="subtitle" data-typed-text="游戏编程模式(一) 总览"></span>
           
         </div>
 
@@ -213,8 +213,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-03 20:13" pubdate>
-          2024年1月3日 晚上
+        <time datetime="2024-01-28 21:52" pubdate>
+          2024年1月28日 晚上
         </time>
       </span>
     
@@ -225,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          483 字
+          1.2k 字
         
       </span>
     
@@ -236,7 +236,7 @@
         
         
         
-          5 分钟
+          11 分钟
         
       </span>
     
@@ -273,13 +273,32 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">有向距离场(Signed Distance Field, SDF)</h1>
+            <h1 id="seo-header">游戏编程模式(一) 总览</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="什么是有向距离场"><a href="#什么是有向距离场" class="headerlink" title="什么是有向距离场"></a>什么是有向距离场</h2><p>有向距离场是一种隐式的表示曲面的数据结构。具体的形式主要有2D和3D两种，不过这两种本质没啥区别，无非就是维数不同而已，都是使用一系列网格(Grid)填充整个空间，每个网格计算网格中心与距离它最近的一个表面的距离，用这个距离代表这个网格，而“有向”体现在如果网格处于一个封闭物体内，则这个距离为负数，否则为正数。如果刚好位于物体表面，则距离为0。这一大堆网格就构成了一个场，这个场隐式地定义了处于这个场中的物体表面。<br>可以看出网格的密度决定这个场景的精确程度，获取场景中任何一个点的SDF值需要经过双线性或者三线性插值。<br>一开始我看完并理解了这个定义之后，觉得也不过如此，结果没想到这个东西能在图形学中发挥这么大的用处，从随心所欲地绘制2D图形，到字体，到光线步进，到阴影生成等等，感觉这个玩意无处不在，在写这篇文章的时候我对SDF的理解也还是停留在表面，所以这篇文章实际上是一个索引，日后我会逐渐完善SDF的应用，并且在这篇文章中给出对应的其他文章的链接，逐渐补完这块领域。</p>
-<h2 id="使用SDF玩转shadertoy"><a href="#使用SDF玩转shadertoy" class="headerlink" title="使用SDF玩转shadertoy"></a>使用SDF玩转shadertoy</h2><p>在知道shadertoy之后立即听闻了Inigo Quilez(常说的IQ大神)的大名，<a target="_blank" rel="noopener" href="https://iquilezles.org/">他的主页</a>中有大量干货，读者有空可以去看看。<br>其中，SDF无论在他的文章还是shadertoy中都有着重要的地位。关于在shadertoy中使用SDF请移步下面这篇文章：<br><a href="https://heliumcat.github.io/TA_Blogs/2024/01/03/Play-Shadertoy-With-SDF/">使用SDF玩转shadertoy</a></p>
+                <h2 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h2><p>刚开始接触实际的Untiy项目，首先感受到的第一件事就是要回去好好看看设计模式了，如果不去回顾参透一下设计模式写出来的代码就是依托答辩。<br>但是市面上关于设计模式的书和资料实在是太多了，只能说这个话题过于经典，不得不品尝。真正能用在游戏中的设计模式有多少呢？我其实也不太想去看比较经典的那本head first设计模式，不知道为什么每次看这大部头都看一点就看不下去，可能设计模式这种东西如果不是真正自己去用的话，学习中的正反馈也少，学完了也容易忘，而且这本我印象中好像示例代码是JAVA，看着生理不适（叠个甲，本人对于一切编程语言同等尊重，只是个人不太喜欢看JAVA的代码，并非抨击JAVA这个语言，望周知）（倒也不是不能看）（再叠个甲，本人知道看设计模式的书关注点不该在示例代码采用的语言上，望周知），就一直没能看下去。<br>然后我就发现了这本《游戏编程模式》，本来觉得这个名字沾点噱头，但是实际上确实书如其名，内容都是爷爱看的，是本好书。顺便一提这本书在网上公开了正版英文完整版和中文完整版，真为爱发电啊(爱游戏的都是好人捏)，不仅满昏我还要买实体收藏。  </p>
+<h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>CoF设计模式按照类别来分有3大类：</p>
+<ul>
+<li>创建型(Creational)：用于创建对象</li>
+<li>结构型(Structural)：用于处理类或对象之间的关系</li>
+<li>行为型(Behavioral)：用于规范类或对象之间的交互<br>顺便一提，这里描述中的“类”和“对象”的确是区分开含义的，“对象”指的实例。</li>
+</ul>
+<h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><p>设计模式讨论的重点其实就是软件架构，而架构的存在是为了改动代码。也就是说，代码如果以后不做任何改动，架构设计就是没有意义的。所以设计架构，就是考虑以后改动的可能性而做的冗余设计。  </p>
+<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>既然是冗余的设计，那么直觉上大部分这样的设计其实是影响性能的。因为不仅代码量增加了，而且很多时候需要用到动态分派(Dynamic Dispatch)，也就是虚函数那块的东西来实现多态。所以说设计架构的时候其实比较容易陷入架构的陷阱。在设计时需要谨慎考虑哪里需要预留灵活性，哪里不需要。</p>
+<h3 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h3><p>人的大脑其实内存和缓存是有限的，写程序的时候把“上下文”完整装入大脑是很困难的，所以说我们需要减少写一段程序所需要的“上下文”内容，这就是解耦。解耦不仅可以让我们只关注当前所要实现的内容，而不必关心其他部分。同时，需要对写好的代码做出修改时，可以尽可能少的变动代码来达到目的。  </p>
+<h3 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h3><p>原型即“不考虑任何架构，上来就写，目的是实现功能”的代码。这样的代码是知道将会扔掉的。但是原型可以快速帮我们验证功能的可行性，所以编写原型也是有用的。  </p>
+<h3 id="蒸干代码"><a href="#蒸干代码" class="headerlink" title="蒸干代码"></a>蒸干代码</h3><p>臻于完美之时，不是加无可加，而是减无可减。写完代码后，需要对代码进行清理保证简洁，这样也能达到“减少需要考虑的上下文”的作用。</p>
+<h3 id="鸡汤"><a href="#鸡汤" class="headerlink" title="鸡汤"></a>鸡汤</h3><p>如果你想要做出让人享受的东西，那就享受做它的过程。</p>
+<p>《游戏编程模式》中只讲了CoF设计模式中对游戏开发有用的几个模式，另外作者还提出了自己的4种类型的设计模式：序列模式、行为模式、解耦模式、优化模式。接下来按书中的顺序列举设计模式并给出对应文章链接(没链接就是还没写，摸了)：</p>
+<h2 id="CoF设计模式"><a href="#CoF设计模式" class="headerlink" title="CoF设计模式"></a>CoF设计模式</h2><h3 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h3><p>类型：行为型<br>概括：</p>
+<ul>
+<li>将具体方法封装为类，从而解除具体方法与调用方的耦合。(如游戏中的按键动态绑定)</li>
+<li>调用方获取类的实例并且延迟执行，从而解除调用方和具体对象(这里指调用方原本想操控的对象)的耦合。(如游戏中命令作用到不同的对象(玩家，怪物))<br>点击跳转到文章：<a href="/2024/02/03/Design-Patterns/Command/" title="游戏编程模式(二) 命令模式">命令模式</a></li>
+</ul>
+<h3 id="享元模式"><a href="#享元模式" class="headerlink" title="享元模式"></a>享元模式</h3><p>类型：结构型<br>概括：共享重复的部分</p>
+<h3 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h3><p>类型：行为型<br>概括：发生事件，通知订阅者</p>
 
                 
               </div>
@@ -298,7 +317,7 @@
     
       <span class="category-chain">
         
-  <a href="/TA_Blogs/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="category-chain-item">图形学</a>
+  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="category-chain-item">设计模式</a>
   
   
 
@@ -313,9 +332,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/TA_Blogs/tags/SDF/" class="print-no-link">#SDF</a>
+        <a href="/tags/%E7%B4%A2%E5%BC%95/" class="print-no-link">#索引</a>
       
-        <a href="/TA_Blogs/tags/%E7%B4%A2%E5%BC%95/" class="print-no-link">#索引</a>
+        <a href="/tags/Series/" class="print-no-link">#Series</a>
       
     </div>
   
@@ -327,8 +346,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>有向距离场(Signed Distance Field, SDF)</div>
-      <div>https://heliumcat.github.io/TA_Blogs/2024/01/03/Signed-Distance-Field-SDF/</div>
+      <div>游戏编程模式(一) 总览</div>
+      <div>https://chic-cat-145886.netlify.app/2024/01/28/Design-Patterns/Design-Patterns-Overview/</div>
     </div>
     <div class="license-meta">
       
@@ -340,7 +359,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年1月3日</div>
+          <div>2024年1月28日</div>
         </div>
       
       
@@ -372,9 +391,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/TA_Blogs/2024/01/03/Play-Shadertoy-With-SDF/" title="使用SDF玩转shadertoy">
+                      <a href="/2024/01/31/Plan/" title="Plan">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">使用SDF玩转shadertoy</span>
+                        <span class="hidden-mobile">Plan</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -382,8 +401,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/TA_Blogs/2024/01/02/ContraNeRF-Paper-Notes/" title="ContraNeRF论文笔记">
-                        <span class="hidden-mobile">ContraNeRF论文笔记</span>
+                      <a href="/2024/01/23/VFX/Gabriel-Aguiar-Series/VFX-Sparks/" title="Gabriel Aguiar的VFX系列(二) 火花">
+                        <span class="hidden-mobile">Gabriel Aguiar的VFX系列(二) 火花</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -512,8 +531,8 @@
 
 <script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/TA_Blogs/js/events.js" ></script>
-<script  src="/TA_Blogs/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -535,7 +554,7 @@
 
 
   
-    <script  src="/TA_Blogs/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -634,7 +653,7 @@
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/TA_Blogs/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
@@ -642,7 +661,7 @@
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/TA_Blogs/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   

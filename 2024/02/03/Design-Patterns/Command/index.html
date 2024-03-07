@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/TA_Blogs/img/fluid.png">
-  <link rel="icon" href="/TA_Blogs/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -16,23 +16,23 @@
   <meta name="author" content="Heline">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Varjo开发入门指北">
+    <meta name="description" content="概述GoF这么描述命令模式：  Encapsulate a request as an object, thereby letting users parameterize clients with different requests, queue or log requests, and support undoable operations.  这段话其实看的人一头雾水，我觉得比较重要的点就">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Varjo开发入门">
-<meta property="og:url" content="https://heliumcat.github.io/TA_Blogs/2024/01/15/Varjo-Development/index.html">
+<meta property="og:title" content="游戏编程模式(二) 命令模式">
+<meta property="og:url" content="https://chic-cat-145886.netlify.app/2024/02/03/Design-Patterns/Command/index.html">
 <meta property="og:site_name" content="Heline&#39;s Blog">
-<meta property="og:description" content="Varjo开发入门指北">
+<meta property="og:description" content="概述GoF这么描述命令模式：  Encapsulate a request as an object, thereby letting users parameterize clients with different requests, queue or log requests, and support undoable operations.  这段话其实看的人一头雾水，我觉得比较重要的点就">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://heliumcat.github.io/TA_Blogs/2024/01/15/Varjo-Development/VarjoDevelopment.svg">
-<meta property="article:published_time" content="2024-01-15T12:55:20.000Z">
-<meta property="article:modified_time" content="2024-01-17T02:44:45.611Z">
+<meta property="article:published_time" content="2024-02-03T11:57:43.000Z">
+<meta property="article:modified_time" content="2024-02-16T11:19:41.887Z">
 <meta property="article:author" content="Heline">
+<meta property="article:tag" content="索引">
+<meta property="article:tag" content="Series">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://heliumcat.github.io/TA_Blogs/2024/01/15/Varjo-Development/VarjoDevelopment.svg">
   
   
   
-  <title>Varjo开发入门 - Heline&#39;s Blog</title>
+  <title>游戏编程模式(二) 命令模式 - Heline&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -56,12 +56,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/TA_Blogs/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/TA_Blogs/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/TA_Blogs/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -70,15 +70,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"heliumcat.github.io","root":"/TA_Blogs/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/TA_Blogs/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"chic-cat-145886.netlify.app","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/TA_Blogs/js/utils.js" ></script>
-  <script  src="/TA_Blogs/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -99,7 +99,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/TA_Blogs/">
+    <a class="navbar-brand" href="/">
       <strong>Heline&#39;s Blog</strong>
     </a>
 
@@ -118,7 +118,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/" target="_self">
+              <a class="nav-link" href="/" target="_self">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -130,7 +130,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/archives/" target="_self">
+              <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -142,7 +142,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/categories/" target="_self">
+              <a class="nav-link" href="/categories/" target="_self">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -154,7 +154,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/tags/" target="_self">
+              <a class="nav-link" href="/tags/" target="_self">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -166,7 +166,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/about/" target="_self">
+              <a class="nav-link" href="/about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
                 <span>联系我</span>
               </a>
@@ -196,13 +196,13 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/TA_Blogs/img/default.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Varjo开发入门"></span>
+            <span id="subtitle" data-typed-text="游戏编程模式(二) 命令模式"></span>
           
         </div>
 
@@ -213,8 +213,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-15 20:55" pubdate>
-          2024年1月15日 晚上
+        <time datetime="2024-02-03 19:57" pubdate>
+          2024年2月3日 晚上
         </time>
       </span>
     
@@ -225,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7 字
+          246 字
         
       </span>
     
@@ -236,7 +236,7 @@
         
         
         
-          1 分钟
+          3 分钟
         
       </span>
     
@@ -273,12 +273,28 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Varjo开发入门</h1>
+            <h1 id="seo-header">游戏编程模式(二) 命令模式</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="Varjo开发思维导图"><a href="#Varjo开发思维导图" class="headerlink" title="Varjo开发思维导图"></a>Varjo开发思维导图</h2><p><img src="/TA_Blogs/2024/01/15/Varjo-Development/VarjoDevelopment.svg" srcset="/TA_Blogs/img/loading.gif" lazyload alt="Varjo开发思维导图"></p>
+                <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>GoF这么描述命令模式：</p>
+<blockquote>
+<p>Encapsulate a request as an object, thereby letting users parameterize clients with different requests, queue or log requests, and support undoable operations.</p>
+</blockquote>
+<p>这段话其实看的人一头雾水，我觉得比较重要的点就是：将请求封装为对象以及这样做可以实现撤销操作功能。<br>这本书的作者也给出了他认为的命令模式：  </p>
+<blockquote>
+<p>A command is a reified method call</p>
+</blockquote>
+<p>reified的意思是“具象化的，实物化的”，上面这句话表达的意思也就是命令是一个实例化的方法。这听起来像是回调函数那一类的东西，因此GoF补充道：  </p>
+<blockquote>
+<p>Commands are an object-oriented replacement for callbacks.</p>
+</blockquote>
+<p>这下感觉清楚多了，命令模式其实就是将回调函数的面向对象表达。</p>
+<h2 id="解决的痛点"><a href="#解决的痛点" class="headerlink" title="解决的痛点"></a>解决的痛点</h2><ol>
+<li>游戏中需要将按键绑定为对应的功能，如果直接将功能写为函数，再强行绑到对应的按键上，以后如果需要修改按键映射就特别麻烦。</li>
+<li>游戏的回放功能，命令撤销功能等如何实现。</li>
+</ol>
 
                 
               </div>
@@ -297,15 +313,8 @@
     
       <span class="category-chain">
         
-  <a href="/TA_Blogs/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="category-chain-item">图形学</a>
+  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="category-chain-item">设计模式</a>
   
-  
-    <span>></span>
-    
-  <a href="/TA_Blogs/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/VR/" class="category-chain-item">VR</a>
-  
-  
-
   
 
       </span>
@@ -316,6 +325,15 @@
     </div>
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%B4%A2%E5%BC%95/" class="print-no-link">#索引</a>
+      
+        <a href="/tags/Series/" class="print-no-link">#Series</a>
+      
+    </div>
+  
 </div>
 
 
@@ -324,8 +342,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Varjo开发入门</div>
-      <div>https://heliumcat.github.io/TA_Blogs/2024/01/15/Varjo-Development/</div>
+      <div>游戏编程模式(二) 命令模式</div>
+      <div>https://chic-cat-145886.netlify.app/2024/02/03/Design-Patterns/Command/</div>
     </div>
     <div class="license-meta">
       
@@ -337,7 +355,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年1月15日</div>
+          <div>2024年2月3日</div>
         </div>
       
       
@@ -369,18 +387,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/TA_Blogs/2024/01/18/VFX-Principles/" title="Gabriel Aguiar的VFX系列(一) VFX基本直觉">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Gabriel Aguiar的VFX系列(一) VFX基本直觉</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/TA_Blogs/2024/01/03/Play-Shadertoy-With-SDF/" title="使用SDF玩转shadertoy">
-                        <span class="hidden-mobile">使用SDF玩转shadertoy</span>
+                      <a href="/2024/01/31/Plan/" title="Plan">
+                        <span class="hidden-mobile">Plan</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -509,8 +521,8 @@
 
 <script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/TA_Blogs/js/events.js" ></script>
-<script  src="/TA_Blogs/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -532,7 +544,7 @@
 
 
   
-    <script  src="/TA_Blogs/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -631,7 +643,7 @@
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/TA_Blogs/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
@@ -639,7 +651,7 @@
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/TA_Blogs/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   

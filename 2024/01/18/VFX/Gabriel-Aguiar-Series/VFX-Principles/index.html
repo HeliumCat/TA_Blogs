@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/TA_Blogs/img/fluid.png">
-  <link rel="icon" href="/TA_Blogs/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,23 +19,23 @@
     <meta name="description" content="VFX类型VFX这个东西其实类型非常单调，基本上就是shader、粒子效果、网格效果、贴图动画的组合。这个部分其实没啥好说的，主要就是建立一个直觉，以及引发一下何为VFX的思考，因为很多VFX也有网格，那为什么不被定义为模型？显然，“有网格的VFX”与几何模型的最主要的区别就是VFX有明显的生命周期以及生命周期的几个阶段，这里就引出下面的VFX五要素。 VFX五要素构成VFX的五大基本要素，每一项">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Gabriel Aguiar的VFX系列(一) VFX基本直觉">
-<meta property="og:url" content="https://heliumcat.github.io/TA_Blogs/2024/01/18/VFX-Principles/index.html">
+<meta property="og:url" content="https://chic-cat-145886.netlify.app/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/index.html">
 <meta property="og:site_name" content="Heline&#39;s Blog">
 <meta property="og:description" content="VFX类型VFX这个东西其实类型非常单调，基本上就是shader、粒子效果、网格效果、贴图动画的组合。这个部分其实没啥好说的，主要就是建立一个直觉，以及引发一下何为VFX的思考，因为很多VFX也有网格，那为什么不被定义为模型？显然，“有网格的VFX”与几何模型的最主要的区别就是VFX有明显的生命周期以及生命周期的几个阶段，这里就引出下面的VFX五要素。 VFX五要素构成VFX的五大基本要素，每一项">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://heliumcat.github.io/TA_Blogs/2024/01/18/VFX-Principles/invoker.gif">
-<meta property="og:image" content="https://heliumcat.github.io/TA_Blogs/2024/01/18/VFX-Principles/image.png">
-<meta property="og:image" content="https://heliumcat.github.io/TA_Blogs/2024/01/18/VFX-Principles/image-1.png">
-<meta property="og:image" content="https://heliumcat.github.io/TA_Blogs/2024/01/18/VFX-Principles/image-2.png">
-<meta property="og:image" content="https://heliumcat.github.io/TA_Blogs/2024/01/18/VFX-Principles/image-3.png">
+<meta property="og:image" content="https://chic-cat-145886.netlify.app/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/invoker.gif">
+<meta property="og:image" content="https://chic-cat-145886.netlify.app/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/image.png">
+<meta property="og:image" content="https://chic-cat-145886.netlify.app/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/image-1.png">
+<meta property="og:image" content="https://chic-cat-145886.netlify.app/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/image-2.png">
+<meta property="og:image" content="https://chic-cat-145886.netlify.app/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/image-3.png">
 <meta property="article:published_time" content="2024-01-18T03:34:32.000Z">
-<meta property="article:modified_time" content="2024-01-22T16:44:16.007Z">
+<meta property="article:modified_time" content="2024-02-16T11:19:41.889Z">
 <meta property="article:author" content="Heline">
 <meta property="article:tag" content="VFX">
 <meta property="article:tag" content="Gabriel Aguiar入门教程">
 <meta property="article:tag" content="Series">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://heliumcat.github.io/TA_Blogs/2024/01/18/VFX-Principles/invoker.gif">
+<meta name="twitter:image" content="https://chic-cat-145886.netlify.app/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/invoker.gif">
   
   
   
@@ -63,12 +63,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/TA_Blogs/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/TA_Blogs/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/TA_Blogs/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -77,15 +77,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"heliumcat.github.io","root":"/TA_Blogs/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/TA_Blogs/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"chic-cat-145886.netlify.app","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/TA_Blogs/js/utils.js" ></script>
-  <script  src="/TA_Blogs/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -106,7 +106,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/TA_Blogs/">
+    <a class="navbar-brand" href="/">
       <strong>Heline&#39;s Blog</strong>
     </a>
 
@@ -125,7 +125,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/" target="_self">
+              <a class="nav-link" href="/" target="_self">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -137,7 +137,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/archives/" target="_self">
+              <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -149,7 +149,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/categories/" target="_self">
+              <a class="nav-link" href="/categories/" target="_self">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -161,7 +161,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/tags/" target="_self">
+              <a class="nav-link" href="/tags/" target="_self">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -173,7 +173,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/about/" target="_self">
+              <a class="nav-link" href="/about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
                 <span>联系我</span>
               </a>
@@ -203,7 +203,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/TA_Blogs/img/default.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -292,13 +292,13 @@
 <ul>
 <li>Anticipation</li>
 <li>Climax</li>
-<li>Dissipation<br>这三个阶段都非常有意思。因为最近在玩DOTA2，举个比较经典的例子就是DOTA2卡尔的天火。写这篇文章之前没有仔细看过，现在逐帧观察发现细节非常丰富，怪不得那么爽。<br><img src="/TA_Blogs/2024/01/18/VFX-Principles/invoker.gif" srcset="/TA_Blogs/img/loading.gif" lazyload alt="卡尔天火"><br>Anticipation就是“使玩家感觉有事将要发生了”。可以简单理解为“技能前摇”。在卡尔的这个例子中，直接表现的就是一道很细的光束从上到下，并且收束的越来越细，地面开始出现光线焦点和波纹扩散。<br><img src="/TA_Blogs/2024/01/18/VFX-Principles/image.png" srcset="/TA_Blogs/img/loading.gif" lazyload alt="卡尔天火技能前摇"><br>这个阶段可长可短，主要依据是你想将这个效果设计为一个可规避的技能还是一个瞬时效果，总之就是给人以“期待”。</li>
+<li>Dissipation<br>这三个阶段都非常有意思。因为最近在玩DOTA2，举个比较经典的例子就是DOTA2卡尔的天火。写这篇文章之前没有仔细看过，现在逐帧观察发现细节非常丰富，怪不得那么爽。<br><img src="/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/invoker.gif" srcset="/img/loading.gif" lazyload alt="卡尔天火"><br>Anticipation就是“使玩家感觉有事将要发生了”。可以简单理解为“技能前摇”。在卡尔的这个例子中，直接表现的就是一道很细的光束从上到下，并且收束的越来越细，地面开始出现光线焦点和波纹扩散。<br><img src="/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/image.png" srcset="/img/loading.gif" lazyload alt="卡尔天火技能前摇"><br>这个阶段可长可短，主要依据是你想将这个效果设计为一个可规避的技能还是一个瞬时效果，总之就是给人以“期待”。</li>
 </ul>
-<p>接下来的Climax就是技能生效的阶段，一般来说这个阶段的持续时间最短，光污染最强，给人感觉最爽。<br><img src="/TA_Blogs/2024/01/18/VFX-Principles/image-1.png" srcset="/TA_Blogs/img/loading.gif" lazyload alt="卡尔技能生效"><br>逐帧观察可以发现，卡尔技能生效的一瞬间，有一道非常粗的天光从天而降，地面出现灼烧感的贴图，随后地面的光圈瞬间扩大，并伴随爆炸和地面破碎效果，视觉冲击感很强。这里地面叠加了两层贴图，一层表现烧灼感，一层表现破碎感。  </p>
+<p>接下来的Climax就是技能生效的阶段，一般来说这个阶段的持续时间最短，光污染最强，给人感觉最爽。<br><img src="/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/image-1.png" srcset="/img/loading.gif" lazyload alt="卡尔技能生效"><br>逐帧观察可以发现，卡尔技能生效的一瞬间，有一道非常粗的天光从天而降，地面出现灼烧感的贴图，随后地面的光圈瞬间扩大，并伴随爆炸和地面破碎效果，视觉冲击感很强。这里地面叠加了两层贴图，一层表现烧灼感，一层表现破碎感。  </p>
 <p>最后，Dissipation阶段作为这段VFX的收尾，使地面的光圈逐渐消散，然后火焰消散，最后留下破碎的地面。(懒得截图了，自己体会:D)</p>
 <h3 id="Shape"><a href="#Shape" class="headerlink" title="Shape"></a>Shape</h3><p>比起生命周期，其实更加直观的是一个VFX的形状。不同的形状决定了一个VFX看上去究竟是“很有威胁”还是“很柔和”，以及这个VFX效果的属性。比如上面卡尔的天火一看就很痛，但是一些治疗效果看上去就很柔和，这个很好理解。关于形状其实更多的感受是类似于子弹的形状对人感官上的影响，一些尖头的魔法子弹看上去威力会大一点，而一些偏球形的子弹就更加有钝感。<br>总体来说，这一节其实也没有什么好讲的，都是比较直观能感受的东西。</p>
-<h3 id="Contrast"><a href="#Contrast" class="headerlink" title="Contrast"></a>Contrast</h3><p>对比度这个东西其实是平时比较容易忽视的，但是这个因素的确非常重要。因为对比度一定程度上反应了一个VFX的“重要程度”。高对比度往往可以吸引玩家的注意，引导玩家的视线。一般的情形是，低重要性或“不想让人发现”的效果(比如我感觉DOTA2中的莲花就有点看不清)往往会有更低的对比度。<br>不过对比度也不是很好量化，都是凭感觉。一般VFX有大面积的高亮度区域和低亮度区域就可以认为对比度很高，同时具有以上两者对比度更强。<br><img src="/TA_Blogs/2024/01/18/VFX-Principles/image-2.png" srcset="/TA_Blogs/img/loading.gif" lazyload alt="对比度参考"><br>将VFX转化为灰度图，上图可以作为对比度的参考。越靠近中间的色块对比度越低。</p>
-<h3 id="Color-Theme"><a href="#Color-Theme" class="headerlink" title="Color&amp;Theme"></a>Color&amp;Theme</h3><p>关于颜色和主题，其实也不用说太多，实际上就是不同的颜色和元素会让VFX看起来有不同的感觉。<br><img src="/TA_Blogs/2024/01/18/VFX-Principles/image-3.png" srcset="/TA_Blogs/img/loading.gif" lazyload alt="不同的调色板和元素"><br>调色板即上图中的一个个纯色圆形组成的有序集合，亮度从第到高，一方面可以反映色相，另一方面可以反映对比度。同时第二列中虽然调色板差不多，但是可以看出上图加了辉光效果，下图加了类似于治疗的元素，让这两个VFX看起来完全不同。调色板和主题元素共同决定一个VFX看起来怎么样，当调色板比较接近的时候，主题元素就决定了一切。如果调换一下这两个VFX的调色板，而不更换主题元素的话，其实看上去也没多大差别。</p>
+<h3 id="Contrast"><a href="#Contrast" class="headerlink" title="Contrast"></a>Contrast</h3><p>对比度这个东西其实是平时比较容易忽视的，但是这个因素的确非常重要。因为对比度一定程度上反应了一个VFX的“重要程度”。高对比度往往可以吸引玩家的注意，引导玩家的视线。一般的情形是，低重要性或“不想让人发现”的效果(比如我感觉DOTA2中的莲花就有点看不清)往往会有更低的对比度。<br>不过对比度也不是很好量化，都是凭感觉。一般VFX有大面积的高亮度区域和低亮度区域就可以认为对比度很高，同时具有以上两者对比度更强。<br><img src="/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/image-2.png" srcset="/img/loading.gif" lazyload alt="对比度参考"><br>将VFX转化为灰度图，上图可以作为对比度的参考。越靠近中间的色块对比度越低。</p>
+<h3 id="Color-Theme"><a href="#Color-Theme" class="headerlink" title="Color&amp;Theme"></a>Color&amp;Theme</h3><p>关于颜色和主题，其实也不用说太多，实际上就是不同的颜色和元素会让VFX看起来有不同的感觉。<br><img src="/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/image-3.png" srcset="/img/loading.gif" lazyload alt="不同的调色板和元素"><br>调色板即上图中的一个个纯色圆形组成的有序集合，亮度从第到高，一方面可以反映色相，另一方面可以反映对比度。同时第二列中虽然调色板差不多，但是可以看出上图加了辉光效果，下图加了类似于治疗的元素，让这两个VFX看起来完全不同。调色板和主题元素共同决定一个VFX看起来怎么样，当调色板比较接近的时候，主题元素就决定了一切。如果调换一下这两个VFX的调色板，而不更换主题元素的话，其实看上去也没多大差别。</p>
 
                 
               </div>
@@ -317,7 +317,7 @@
     
       <span class="category-chain">
         
-  <a href="/TA_Blogs/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="category-chain-item">图形学</a>
+  <a href="/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="category-chain-item">图形学</a>
   
   
 
@@ -332,11 +332,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/TA_Blogs/tags/VFX/" class="print-no-link">#VFX</a>
+        <a href="/tags/VFX/" class="print-no-link">#VFX</a>
       
-        <a href="/TA_Blogs/tags/Gabriel-Aguiar%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" class="print-no-link">#Gabriel Aguiar入门教程</a>
+        <a href="/tags/Gabriel-Aguiar%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" class="print-no-link">#Gabriel Aguiar入门教程</a>
       
-        <a href="/TA_Blogs/tags/Series/" class="print-no-link">#Series</a>
+        <a href="/tags/Series/" class="print-no-link">#Series</a>
       
     </div>
   
@@ -349,7 +349,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>Gabriel Aguiar的VFX系列(一) VFX基本直觉</div>
-      <div>https://heliumcat.github.io/TA_Blogs/2024/01/18/VFX-Principles/</div>
+      <div>https://chic-cat-145886.netlify.app/2024/01/18/VFX/Gabriel-Aguiar-Series/VFX-Principles/</div>
     </div>
     <div class="license-meta">
       
@@ -393,7 +393,7 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/TA_Blogs/2024/01/23/VFX-Sparks/" title="Gabriel Aguiar的VFX系列(二) 火花">
+                      <a href="/2024/01/23/VFX/Gabriel-Aguiar-Series/VFX-Sparks/" title="Gabriel Aguiar的VFX系列(二) 火花">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">Gabriel Aguiar的VFX系列(二) 火花</span>
                         <span class="visible-mobile">上一篇</span>
@@ -403,7 +403,7 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/TA_Blogs/2024/01/15/Varjo-Development/" title="Varjo开发入门">
+                      <a href="/2024/01/15/Collection/Varjo-Development/" title="Varjo开发入门">
                         <span class="hidden-mobile">Varjo开发入门</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -533,8 +533,8 @@
 
 <script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/TA_Blogs/js/events.js" ></script>
-<script  src="/TA_Blogs/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -556,7 +556,7 @@
 
 
   
-    <script  src="/TA_Blogs/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -655,7 +655,7 @@
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/TA_Blogs/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
@@ -663,7 +663,7 @@
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/TA_Blogs/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   

@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/TA_Blogs/img/fluid.png">
-  <link rel="icon" href="/TA_Blogs/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -16,23 +16,23 @@
   <meta name="author" content="Heline">
   <meta name="keywords" content="">
   
-    <meta name="description" content="&#x2F;&#x2F;—————–施工中——————-&#x2F;&#x2F;">
+    <meta name="description" content="什么是有向距离场有向距离场是一种隐式的表示曲面的数据结构。具体的形式主要有2D和3D两种，不过这两种本质没啥区别，无非就是维数不同而已，都是使用一系列网格(Grid)填充整个空间，每个网格计算网格中心与距离它最近的一个表面的距离，用这个距离代表这个网格，而“有向”体现在如果网格处于一个封闭物体内，则这个距离为负数，否则为正数。如果刚好位于物体表面，则距离为0。这一大堆网格就构成了一个场，这个场隐式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用SDF玩转shadertoy">
-<meta property="og:url" content="https://heliumcat.github.io/TA_Blogs/2024/01/03/Play-Shadertoy-With-SDF/index.html">
+<meta property="og:title" content="有向距离场(Signed Distance Field, SDF)">
+<meta property="og:url" content="https://chic-cat-145886.netlify.app/2024/01/03/Collection/Signed-Distance-Field-SDF/index.html">
 <meta property="og:site_name" content="Heline&#39;s Blog">
-<meta property="og:description" content="&#x2F;&#x2F;—————–施工中——————-&#x2F;&#x2F;">
+<meta property="og:description" content="什么是有向距离场有向距离场是一种隐式的表示曲面的数据结构。具体的形式主要有2D和3D两种，不过这两种本质没啥区别，无非就是维数不同而已，都是使用一系列网格(Grid)填充整个空间，每个网格计算网格中心与距离它最近的一个表面的距离，用这个距离代表这个网格，而“有向”体现在如果网格处于一个封闭物体内，则这个距离为负数，否则为正数。如果刚好位于物体表面，则距离为0。这一大堆网格就构成了一个场，这个场隐式">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-01-03T12:57:17.000Z">
-<meta property="article:modified_time" content="2024-01-17T02:44:45.611Z">
+<meta property="article:published_time" content="2024-01-03T12:13:16.000Z">
+<meta property="article:modified_time" content="2024-02-16T11:19:41.885Z">
 <meta property="article:author" content="Heline">
 <meta property="article:tag" content="SDF">
-<meta property="article:tag" content="shadertoy">
+<meta property="article:tag" content="索引">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>使用SDF玩转shadertoy - Heline&#39;s Blog</title>
+  <title>有向距离场(Signed Distance Field, SDF) - Heline&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -56,12 +56,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/TA_Blogs/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/TA_Blogs/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/TA_Blogs/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -70,15 +70,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"heliumcat.github.io","root":"/TA_Blogs/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/TA_Blogs/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"chic-cat-145886.netlify.app","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/TA_Blogs/js/utils.js" ></script>
-  <script  src="/TA_Blogs/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -99,7 +99,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/TA_Blogs/">
+    <a class="navbar-brand" href="/">
       <strong>Heline&#39;s Blog</strong>
     </a>
 
@@ -118,7 +118,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/" target="_self">
+              <a class="nav-link" href="/" target="_self">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -130,7 +130,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/archives/" target="_self">
+              <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -142,7 +142,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/categories/" target="_self">
+              <a class="nav-link" href="/categories/" target="_self">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -154,7 +154,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/tags/" target="_self">
+              <a class="nav-link" href="/tags/" target="_self">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -166,7 +166,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/about/" target="_self">
+              <a class="nav-link" href="/about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
                 <span>联系我</span>
               </a>
@@ -196,13 +196,13 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/TA_Blogs/img/default.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="使用SDF玩转shadertoy"></span>
+            <span id="subtitle" data-typed-text="有向距离场(Signed Distance Field, SDF)"></span>
           
         </div>
 
@@ -213,7 +213,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-03 20:57" pubdate>
+        <time datetime="2024-01-03 20:13" pubdate>
           2024年1月3日 晚上
         </time>
       </span>
@@ -225,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7 字
+          483 字
         
       </span>
     
@@ -236,7 +236,7 @@
         
         
         
-          1 分钟
+          5 分钟
         
       </span>
     
@@ -273,12 +273,14 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">使用SDF玩转shadertoy</h1>
+            <h1 id="seo-header">有向距离场(Signed Distance Field, SDF)</h1>
             
             
               <div class="markdown-body">
                 
-                <p>&#x2F;&#x2F;—————–施工中——————-&#x2F;&#x2F;</p>
+                <h2 id="什么是有向距离场"><a href="#什么是有向距离场" class="headerlink" title="什么是有向距离场"></a>什么是有向距离场</h2><p>有向距离场是一种隐式的表示曲面的数据结构。具体的形式主要有2D和3D两种，不过这两种本质没啥区别，无非就是维数不同而已，都是使用一系列网格(Grid)填充整个空间，每个网格计算网格中心与距离它最近的一个表面的距离，用这个距离代表这个网格，而“有向”体现在如果网格处于一个封闭物体内，则这个距离为负数，否则为正数。如果刚好位于物体表面，则距离为0。这一大堆网格就构成了一个场，这个场隐式地定义了处于这个场中的物体表面。<br>可以看出网格的密度决定这个场景的精确程度，获取场景中任何一个点的SDF值需要经过双线性或者三线性插值。<br>一开始我看完并理解了这个定义之后，觉得也不过如此，结果没想到这个东西能在图形学中发挥这么大的用处，从随心所欲地绘制2D图形，到字体，到光线步进，到阴影生成等等，感觉这个玩意无处不在，在写这篇文章的时候我对SDF的理解也还是停留在表面，所以这篇文章实际上是一个索引，日后我会逐渐完善SDF的应用，并且在这篇文章中给出对应的其他文章的链接，逐渐补完这块领域。</p>
+<h2 id="使用SDF玩转shadertoy"><a href="#使用SDF玩转shadertoy" class="headerlink" title="使用SDF玩转shadertoy"></a>使用SDF玩转shadertoy</h2><p>在知道shadertoy之后立即听闻了Inigo Quilez(常说的IQ大神)的大名，<a target="_blank" rel="noopener" href="https://iquilezles.org/">他的主页</a>中有大量干货，读者有空可以去看看。<br>其中，SDF无论在他的文章还是shadertoy中都有着重要的地位。关于在shadertoy中使用SDF请移步下面这篇文章：  </p>
+<a href="/2024/01/03/Collection/Play-Shadertoy-With-SDF/" title="使用SDF玩转shadertoy">使用SDF玩转shadertoy</a>
 
                 
               </div>
@@ -297,7 +299,7 @@
     
       <span class="category-chain">
         
-  <a href="/TA_Blogs/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="category-chain-item">图形学</a>
+  <a href="/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="category-chain-item">图形学</a>
   
   
 
@@ -312,9 +314,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/TA_Blogs/tags/SDF/" class="print-no-link">#SDF</a>
+        <a href="/tags/SDF/" class="print-no-link">#SDF</a>
       
-        <a href="/TA_Blogs/tags/shadertoy/" class="print-no-link">#shadertoy</a>
+        <a href="/tags/%E7%B4%A2%E5%BC%95/" class="print-no-link">#索引</a>
       
     </div>
   
@@ -326,8 +328,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>使用SDF玩转shadertoy</div>
-      <div>https://heliumcat.github.io/TA_Blogs/2024/01/03/Play-Shadertoy-With-SDF/</div>
+      <div>有向距离场(Signed Distance Field, SDF)</div>
+      <div>https://chic-cat-145886.netlify.app/2024/01/03/Collection/Signed-Distance-Field-SDF/</div>
     </div>
     <div class="license-meta">
       
@@ -371,9 +373,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/TA_Blogs/2024/01/15/Varjo-Development/" title="Varjo开发入门">
+                      <a href="/2024/01/03/Collection/Play-Shadertoy-With-SDF/" title="使用SDF玩转shadertoy">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Varjo开发入门</span>
+                        <span class="hidden-mobile">使用SDF玩转shadertoy</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -381,8 +383,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/TA_Blogs/2024/01/03/Signed-Distance-Field-SDF/" title="有向距离场(Signed Distance Field, SDF)">
-                        <span class="hidden-mobile">有向距离场(Signed Distance Field, SDF)</span>
+                      <a href="/2024/01/02/Collection/ContraNeRF-Paper-Notes/" title="ContraNeRF论文笔记">
+                        <span class="hidden-mobile">ContraNeRF论文笔记</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -511,8 +513,8 @@
 
 <script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/TA_Blogs/js/events.js" ></script>
-<script  src="/TA_Blogs/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -534,7 +536,7 @@
 
 
   
-    <script  src="/TA_Blogs/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -633,7 +635,7 @@
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/TA_Blogs/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
@@ -641,7 +643,7 @@
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/TA_Blogs/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   

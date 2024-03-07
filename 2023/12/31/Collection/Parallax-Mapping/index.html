@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/TA_Blogs/img/fluid.png">
-  <link rel="icon" href="/TA_Blogs/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,17 +19,17 @@
     <meta name="description" content="最简单版本的视差映射(Parallax Mapping)我个人对于视差映射这个东西其实理解了很久，因为网上大部分的博客和资料都没有点明一件事，那就是视差映射这个东西实际上是一个非常经验性的trick，而不是有多少数学上的严谨在里面的。这导致我一直在试图从几何上理解那一套得到uv的offset的过程，结果一直没有想通，后来干脆尝试直接从合理性的角度去理解这一套过程(就是强行解释…)，反倒茅塞顿开。以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="视差映射">
-<meta property="og:url" content="https://heliumcat.github.io/TA_Blogs/2023/12/31/Parallax-Mapping/index.html">
+<meta property="og:url" content="https://chic-cat-145886.netlify.app/2023/12/31/Collection/Parallax-Mapping/index.html">
 <meta property="og:site_name" content="Heline&#39;s Blog">
 <meta property="og:description" content="最简单版本的视差映射(Parallax Mapping)我个人对于视差映射这个东西其实理解了很久，因为网上大部分的博客和资料都没有点明一件事，那就是视差映射这个东西实际上是一个非常经验性的trick，而不是有多少数学上的严谨在里面的。这导致我一直在试图从几何上理解那一套得到uv的offset的过程，结果一直没有想通，后来干脆尝试直接从合理性的角度去理解这一套过程(就是强行解释…)，反倒茅塞顿开。以">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://heliumcat.github.io/TA_Blogs/img/1.jpg">
+<meta property="og:image" content="https://chic-cat-145886.netlify.app/img/1.jpg">
 <meta property="article:published_time" content="2023-12-31T11:01:15.000Z">
-<meta property="article:modified_time" content="2024-01-17T02:44:45.603Z">
+<meta property="article:modified_time" content="2024-02-16T11:19:41.878Z">
 <meta property="article:author" content="Heline">
 <meta property="article:tag" content="材质">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://heliumcat.github.io/TA_Blogs/img/1.jpg">
+<meta name="twitter:image" content="https://chic-cat-145886.netlify.app/img/1.jpg">
   
   
   
@@ -57,12 +57,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/TA_Blogs/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/TA_Blogs/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/TA_Blogs/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -71,15 +71,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"heliumcat.github.io","root":"/TA_Blogs/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/TA_Blogs/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"chic-cat-145886.netlify.app","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/TA_Blogs/js/utils.js" ></script>
-  <script  src="/TA_Blogs/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -100,7 +100,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/TA_Blogs/">
+    <a class="navbar-brand" href="/">
       <strong>Heline&#39;s Blog</strong>
     </a>
 
@@ -119,7 +119,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/" target="_self">
+              <a class="nav-link" href="/" target="_self">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -131,7 +131,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/archives/" target="_self">
+              <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -143,7 +143,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/categories/" target="_self">
+              <a class="nav-link" href="/categories/" target="_self">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -155,7 +155,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/tags/" target="_self">
+              <a class="nav-link" href="/tags/" target="_self">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -167,7 +167,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/TA_Blogs/about/" target="_self">
+              <a class="nav-link" href="/about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
                 <span>联系我</span>
               </a>
@@ -197,7 +197,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/TA_Blogs/img/1.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/img/1.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -284,19 +284,19 @@
 <div class="note note-info">
             <p>更多的模型细节必然伴随更多的三角形，不可能通过位移顶点白嫖模型细节的呀</p>
           </div>
-<p>所以，视差映射这种高级的trick就出来了，其思想就是：<strong>所谓的遮挡，实际上可以看成【被遮挡部分】的贴图被【遮挡部分】的贴图所取代。如何取代呢？就像抹颜料一样，把【遮挡部分】的贴图抹过去</strong>，不完全准确，再借知乎上一个老哥的图来说就是这样：<br><img src="/TA_Blogs/2023/12/31/Parallax-Mapping/image-1.png" srcset="/TA_Blogs/img/loading.gif" lazyload alt="图1 视差贴图的一种理解&lt;sup id=&quot;fnref:1&quot; class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;&lt;span class=&quot;hint--top hint--rounded&quot; aria-label=&quot;https://zhuanlan.zhihu.com/p/574361162&quot;&gt;[1]&lt;/span&gt;&lt;/a&gt;&lt;/sup&gt;"><br>所谓的y轴范围着色就是这种“把颜料抹过去”的感觉。不过这张图我有个不太接受的说法就是视差映射增加了着色信息。总体的着色信息我认为是没有变的，改变的只有纹理映射的方式。</p>
-<h3 id="视差映射用到了什么？"><a href="#视差映射用到了什么？" class="headerlink" title="视差映射用到了什么？"></a>视差映射用到了什么？</h3><p>简单来考虑，一个几何平面，一张普通的表面贴图，可能还有法线贴图(加了这玩意效果更好)，然后就是一张视差贴图(这个是关键)，视差贴图其实就是高度图做了一个颜色反转，实际上使用的是高度信息。大概长下面这个样子：<br><img src="/TA_Blogs/2023/12/31/Parallax-Mapping/image.png" srcset="/TA_Blogs/img/loading.gif" lazyload alt="图2 视差贴图"><br>这个视差贴图实际上是一个砖墙的，可以看出突出的部分是黑色(0)，凹陷的地方是白色(1)，先记住这一点很关键。</p>
-<h3 id="如何使用视差贴图？"><a href="#如何使用视差贴图？" class="headerlink" title="如何使用视差贴图？"></a>如何使用视差贴图？</h3><p>从LearnOpenGL上偷了张图：<br><img src="/TA_Blogs/2023/12/31/Parallax-Mapping/image-2.png" srcset="/TA_Blogs/img/loading.gif" lazyload alt="图3 视差贴图原理"><br>从图中可以看出，B指向A的向量是我们的视线方向，红色不规则的曲线是高度图(视差贴图取反)的高度，B是视线与这个假想高度的交点，A是视线与平面的交点。如果没有视差映射，我们想要显示的就是A点的纹理，但是由于加入了视差映射，按理说整个区域的纹理都该向图中左边的方向偏移，从纹理坐标上反映就是A点的纹理坐标应该对应原本图中右边的点的纹理坐标。这个偏移值(offset)如何确定？实际上这里做了一个假设，就是<br><strong>假设A点的纹理坐标需要对应到B点投影到平面上那个点的纹理坐标</strong><br>不管从可行性还是性能上考虑我们都不可能算出B点的坐标然后投影。所以这里采用了一种替代的方法求出从A指向B的向量P，将P在平面上的投影作为偏移。具体在fragment shader实现，采用切线空间计算，大概的代码就是长这样：</p>
+<p>所以，视差映射这种高级的trick就出来了，其思想就是：<strong>所谓的遮挡，实际上可以看成【被遮挡部分】的贴图被【遮挡部分】的贴图所取代。如何取代呢？就像抹颜料一样，把【遮挡部分】的贴图抹过去</strong>，不完全准确，再借知乎上一个老哥的图来说就是这样：<br><img src="/2023/12/31/Collection/Parallax-Mapping/image-1.png" srcset="/img/loading.gif" lazyload alt="图1 视差贴图的一种理解&lt;sup id=&quot;fnref:1&quot; class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;&lt;span class=&quot;hint--top hint--rounded&quot; aria-label=&quot;https://zhuanlan.zhihu.com/p/574361162&quot;&gt;[1]&lt;/span&gt;&lt;/a&gt;&lt;/sup&gt;"><br>所谓的y轴范围着色就是这种“把颜料抹过去”的感觉。不过这张图我有个不太接受的说法就是视差映射增加了着色信息。总体的着色信息我认为是没有变的，改变的只有纹理映射的方式。</p>
+<h3 id="视差映射用到了什么？"><a href="#视差映射用到了什么？" class="headerlink" title="视差映射用到了什么？"></a>视差映射用到了什么？</h3><p>简单来考虑，一个几何平面，一张普通的表面贴图，可能还有法线贴图(加了这玩意效果更好)，然后就是一张视差贴图(这个是关键)，视差贴图其实就是高度图做了一个颜色反转，实际上使用的是高度信息。大概长下面这个样子：<br><img src="/2023/12/31/Collection/Parallax-Mapping/image.png" srcset="/img/loading.gif" lazyload alt="图2 视差贴图"><br>这个视差贴图实际上是一个砖墙的，可以看出突出的部分是黑色(0)，凹陷的地方是白色(1)，先记住这一点很关键。</p>
+<h3 id="如何使用视差贴图？"><a href="#如何使用视差贴图？" class="headerlink" title="如何使用视差贴图？"></a>如何使用视差贴图？</h3><p>从LearnOpenGL上偷了张图：<br><img src="/2023/12/31/Collection/Parallax-Mapping/image-2.png" srcset="/img/loading.gif" lazyload alt="图3 视差贴图原理"><br>从图中可以看出，B指向A的向量是我们的视线方向，红色不规则的曲线是高度图(视差贴图取反)的高度，B是视线与这个假想高度的交点，A是视线与平面的交点。如果没有视差映射，我们想要显示的就是A点的纹理，但是由于加入了视差映射，按理说整个区域的纹理都该向图中左边的方向偏移，从纹理坐标上反映就是A点的纹理坐标应该对应原本图中右边的点的纹理坐标。这个偏移值(offset)如何确定？实际上这里做了一个假设，就是<br><strong>假设A点的纹理坐标需要对应到B点投影到平面上那个点的纹理坐标</strong><br>不管从可行性还是性能上考虑我们都不可能算出B点的坐标然后投影。所以这里采用了一种替代的方法求出从A指向B的向量P，将P在平面上的投影作为偏移。具体在fragment shader实现，采用切线空间计算，大概的代码就是长这样：</p>
 <figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs glsl"><span class="hljs-comment">//我们定义了一个叫做ParallaxMapping的函数，它把fragment的纹理坐标和切线空间中的fragment到观察者的方向向量为输入。</span><br><span class="hljs-comment">//这个函数返回经位移的纹理坐标。然后我们使用这些经位移的纹理坐标进行diffuse和法线贴图的采样。</span><br><span class="hljs-comment">//最后fragment的diffuse颜色和法线向量就正确的对应于表面的经位移的位置上了。</span><br><br><span class="hljs-comment">//我们来看看ParallaxMapping函数的内部：</span><br><span class="hljs-type">vec2</span> ParallaxMapping(<span class="hljs-type">vec2</span> texCoords, <span class="hljs-type">vec3</span> viewDir)<br>&#123; <br>    <span class="hljs-comment">//这里采样了视差贴图，只取r分量的原因是视差贴图本来只有灰度信息</span><br>    <span class="hljs-type">float</span> height =  <span class="hljs-built_in">texture</span>(depthMap, texCoords).r;<br>    <span class="hljs-comment">//这里为什么这么算在下面详细解释</span><br>    <span class="hljs-type">vec2</span> p = viewDir.xy / viewDir.z * (height * height_scale);<br>    <span class="hljs-comment">//这里加或者减会改变最终视觉上倾斜的方向，可以自己试</span><br>    <span class="hljs-keyword">return</span> texCoords - p;    <br>&#125;<br></code></pre></td></tr></table></figure>
-<p>这里，<code>viewDir.xy</code>很明显就是p在平面上投影的方向，除以<code>viewDir.z</code>的原因可以想象一下我们的视线越与平面垂直，需要的偏移量越小，视线越与平面平行，需要的偏移量越大，这里除以z其实就是这个作用。然后为啥要乘以height呢？因为视差贴图这样定义高度：<br><img src="/TA_Blogs/2023/12/31/Parallax-Mapping/image-3.png" srcset="/TA_Blogs/img/loading.gif" lazyload alt="图4 视差贴图定义的高度"><br>我感觉LearnOpenGL这里给出的图有点不对，读者只用关注0.0和1.0的这两根线就行，其他一律参考图3，并且注意到这里给出的p向量和图3是相反的，所以上面的代码给出的是<code>texCoords - p</code>。<br>可以看到，越突出<code>height</code>越接近0，越平<code>height</code>越接近1，因为如果图3中的A点原本就是山峰，我们就无需计算它的纹理坐标偏移，因为它本身就是遮挡别人的，<code>height</code>为0最终得出来的<code>p</code>也为0向量。最后我们还乘了一个<code>height_scale</code>是为了能自己调视差效果的强度。<br>总结：</p>
+<p>这里，<code>viewDir.xy</code>很明显就是p在平面上投影的方向，除以<code>viewDir.z</code>的原因可以想象一下我们的视线越与平面垂直，需要的偏移量越小，视线越与平面平行，需要的偏移量越大，这里除以z其实就是这个作用。然后为啥要乘以height呢？因为视差贴图这样定义高度：<br><img src="/2023/12/31/Collection/Parallax-Mapping/image-3.png" srcset="/img/loading.gif" lazyload alt="图4 视差贴图定义的高度"><br>我感觉LearnOpenGL这里给出的图有点不对，读者只用关注0.0和1.0的这两根线就行，其他一律参考图3，并且注意到这里给出的p向量和图3是相反的，所以上面的代码给出的是<code>texCoords - p</code>。<br>可以看到，越突出<code>height</code>越接近0，越平<code>height</code>越接近1，因为如果图3中的A点原本就是山峰，我们就无需计算它的纹理坐标偏移，因为它本身就是遮挡别人的，<code>height</code>为0最终得出来的<code>p</code>也为0向量。最后我们还乘了一个<code>height_scale</code>是为了能自己调视差效果的强度。<br>总结：</p>
 <ul>
 <li>视差映射其实和Blinn-Phong光照模型类似，是一个经验性的算法，不要想的太复杂</li>
 <li>视差映射只是尝试去模拟凹凸，并没有改变几何信息。</li>
 </ul>
-<p>然而到这里其实还没有结束，我们注意到成品还有一些瑕疵，如图：<br><img src="/TA_Blogs/2023/12/31/Parallax-Mapping/image-4.png" srcset="/TA_Blogs/img/loading.gif" lazyload alt="图5 法线贴图vs视差映射"><br>右图的边缘还是有一些看着不和谐的地方，这是因为边缘的uv坐标经过这么一映射，有些超过1或者有些小于0了，只需要做个判断即可：</p>
+<p>然而到这里其实还没有结束，我们注意到成品还有一些瑕疵，如图：<br><img src="/2023/12/31/Collection/Parallax-Mapping/image-4.png" srcset="/img/loading.gif" lazyload alt="图5 法线贴图vs视差映射"><br>右图的边缘还是有一些看着不和谐的地方，这是因为边缘的uv坐标经过这么一映射，有些超过1或者有些小于0了，只需要做个判断即可：</p>
 <figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs glsl">texCoords = ParallaxMapping(fs_in.TexCoords,  viewDir);<br><span class="hljs-keyword">if</span>(texCoords.x &gt; <span class="hljs-number">1.0</span> || texCoords.y &gt; <span class="hljs-number">1.0</span> || texCoords.x &lt; <span class="hljs-number">0.0</span> || texCoords.y &lt; <span class="hljs-number">0.0</span>)<br>    <span class="hljs-keyword">discard</span>;<br></code></pre></td></tr></table></figure>
-<p>最终结果：<br><img src="/TA_Blogs/2023/12/31/Parallax-Mapping/image-5.png" srcset="/TA_Blogs/img/loading.gif" lazyload alt="图6 视差映射"></p>
-<h2 id="陡峭视差映射-Steep-Parallax-Mapping"><a href="#陡峭视差映射-Steep-Parallax-Mapping" class="headerlink" title="陡峭视差映射(Steep Parallax Mapping)"></a>陡峭视差映射(Steep Parallax Mapping)</h2><p>上面做的视差映射对向量p的大小做了一个不严谨的假设，直接将A点的高度当作了从A到B的距离。如何让视差映射的计算方法更严谨呢？<br>我们需要求得更精确的B点在平面上的投影，这里就可以使用类似零点定理的思想，我稍微改了一下LearnOpenGL中的图：<br><img src="/TA_Blogs/2023/12/31/Parallax-Mapping/image-6.png" srcset="/TA_Blogs/img/loading.gif" lazyload alt="图7 陡峭视差映射"><br>这个算法从A出发向v向量的方向步进也行，从T0出发向A步进也行，LearnOpenGL里面用的是后者，那我就按照他的来讲，总之目标都是一样的，上图中的B点是我们想找到的点。首先将深度等分，分多少个间隔自行决定，射线从T0出发，每次碰到等分线(上图中为0.2 0.4等等)就停下，求这个点的深度，与当前等分线的值做对比，一旦当前的深度&lt;等分线代表的深度，即为所求的B点。LearnOpenGL给的代码如下，我觉得不太符合我的理解，但是还是贴一下：  </p>
+<p>最终结果：<br><img src="/2023/12/31/Collection/Parallax-Mapping/image-5.png" srcset="/img/loading.gif" lazyload alt="图6 视差映射"></p>
+<h2 id="陡峭视差映射-Steep-Parallax-Mapping"><a href="#陡峭视差映射-Steep-Parallax-Mapping" class="headerlink" title="陡峭视差映射(Steep Parallax Mapping)"></a>陡峭视差映射(Steep Parallax Mapping)</h2><p>上面做的视差映射对向量p的大小做了一个不严谨的假设，直接将A点的高度当作了从A到B的距离。如何让视差映射的计算方法更严谨呢？<br>我们需要求得更精确的B点在平面上的投影，这里就可以使用类似零点定理的思想，我稍微改了一下LearnOpenGL中的图：<br><img src="/2023/12/31/Collection/Parallax-Mapping/image-6.png" srcset="/img/loading.gif" lazyload alt="图7 陡峭视差映射"><br>这个算法从A出发向v向量的方向步进也行，从T0出发向A步进也行，LearnOpenGL里面用的是后者，那我就按照他的来讲，总之目标都是一样的，上图中的B点是我们想找到的点。首先将深度等分，分多少个间隔自行决定，射线从T0出发，每次碰到等分线(上图中为0.2 0.4等等)就停下，求这个点的深度，与当前等分线的值做对比，一旦当前的深度&lt;等分线代表的深度，即为所求的B点。LearnOpenGL给的代码如下，我觉得不太符合我的理解，但是还是贴一下：  </p>
 <figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs glsl"><span class="hljs-type">vec2</span> ParallaxMapping(<span class="hljs-type">vec2</span> texCoords, <span class="hljs-type">vec3</span> viewDir)<br>&#123; <br>    <span class="hljs-comment">// number of depth layers</span><br>    <span class="hljs-keyword">const</span> <span class="hljs-type">float</span> numLayers = <span class="hljs-number">10</span>;<br>    <span class="hljs-comment">// calculate the size of each layer</span><br>    <span class="hljs-type">float</span> layerDepth = <span class="hljs-number">1.0</span> / numLayers;<br>    <span class="hljs-comment">// depth of current layer</span><br>    <span class="hljs-type">float</span> currentLayerDepth = <span class="hljs-number">0.0</span>;<br>    <span class="hljs-comment">// the amount to shift the texture coordinates per layer (from vector P)</span><br>    <span class="hljs-type">vec2</span> P = viewDir.xy * height_scale; <br>    <span class="hljs-type">vec2</span> deltaTexCoords = P / numLayers;<br><br>    <span class="hljs-comment">// get initial values</span><br>    <span class="hljs-type">vec2</span>  currentTexCoords     = texCoords;<br>    <span class="hljs-type">float</span> currentDepthMapValue = <span class="hljs-built_in">texture</span>(depthMap, currentTexCoords).r;<br><br>    <span class="hljs-keyword">while</span>(currentLayerDepth &lt; currentDepthMapValue)<br>    &#123;<br>        <span class="hljs-comment">// shift texture coordinates along direction of P</span><br>        currentTexCoords -= deltaTexCoords;<br>        <span class="hljs-comment">// get depthmap value at current texture coordinates</span><br>        currentDepthMapValue = <span class="hljs-built_in">texture</span>(depthMap, currentTexCoords).r;  <br>        <span class="hljs-comment">// get depth of next layer</span><br>        currentLayerDepth += layerDepth;  <br>    &#125;<br><br>    <span class="hljs-keyword">return</span> currentTexCoords;     <br>&#125;<br></code></pre></td></tr></table></figure>
 <p>可以很直观地看到，将深度等分的数量是影响到程序的运行效率的，所以可以很自然地联想到动态调整等分的数量来加速计算：</p>
 <figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs glsl"><span class="hljs-comment">//规定最大和最小等分层数，具体采用多少层取决于视线和平面有多垂直，视线越和平面垂直，贴图的offset越小</span><br><span class="hljs-comment">//对于很小的offset，我们不需要很精确地求出offset，所以采用比较小的等分层数即可</span><br><span class="hljs-keyword">const</span> <span class="hljs-type">float</span> minLayers = <span class="hljs-number">8</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-type">float</span> maxLayers = <span class="hljs-number">32</span>;<br><span class="hljs-type">float</span> numLayers = <span class="hljs-built_in">mix</span>(maxLayers, minLayers, <span class="hljs-built_in">abs</span>(<span class="hljs-built_in">dot</span>(<span class="hljs-type">vec3</span>(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>), viewDir)));<br></code></pre></td></tr></table></figure>
@@ -324,7 +324,7 @@
     
       <span class="category-chain">
         
-  <a href="/TA_Blogs/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="category-chain-item">图形学</a>
+  <a href="/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="category-chain-item">图形学</a>
   
   
 
@@ -339,7 +339,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/TA_Blogs/tags/%E6%9D%90%E8%B4%A8/" class="print-no-link">#材质</a>
+        <a href="/tags/%E6%9D%90%E8%B4%A8/" class="print-no-link">#材质</a>
       
     </div>
   
@@ -352,7 +352,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>视差映射</div>
-      <div>https://heliumcat.github.io/TA_Blogs/2023/12/31/Parallax-Mapping/</div>
+      <div>https://chic-cat-145886.netlify.app/2023/12/31/Collection/Parallax-Mapping/</div>
     </div>
     <div class="license-meta">
       
@@ -396,7 +396,7 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/TA_Blogs/2024/01/02/ContraNeRF-Paper-Notes/" title="ContraNeRF论文笔记">
+                      <a href="/2024/01/02/Collection/ContraNeRF-Paper-Notes/" title="ContraNeRF论文笔记">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">ContraNeRF论文笔记</span>
                         <span class="visible-mobile">上一篇</span>
@@ -406,7 +406,7 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/TA_Blogs/2023/12/30/hello-world/" title="Hello World">
+                      <a href="/2023/12/30/hello-world/" title="Hello World">
                         <span class="hidden-mobile">Hello World</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -536,8 +536,8 @@
 
 <script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/TA_Blogs/js/events.js" ></script>
-<script  src="/TA_Blogs/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -559,7 +559,7 @@
 
 
   
-    <script  src="/TA_Blogs/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -658,7 +658,7 @@
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/TA_Blogs/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
@@ -666,7 +666,7 @@
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/TA_Blogs/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   
